@@ -37,7 +37,13 @@ const Pinata = (jwt) => {
       pinataOptions: {
         cidVersion: 1,
       },
-      //   pinataMetadata: metadata,
+      pinataMetadata: {
+        name: "NFT testing",
+        keyvalues: {
+          customKey: "customValue",
+          customKey2: "customValue2",
+        },
+      },
       pinataContent: metadata,
     });
 

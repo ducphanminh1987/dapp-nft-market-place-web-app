@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 
 import { AppContext } from "./MarketPlace";
 
-function ListNFT() {
+function ListNFT({ setCurrentPage }) {
   const {
     contract,
     pinata: { uploadIPFSImage, uploadIPFSMetadata },
@@ -80,9 +80,17 @@ function ListNFT() {
 
     debugger;
 
-    await contract.createToken(uri, ethers.utils.parseEther(price), {
-      value: listPrice.toString(),
-    });
+    const transaction = await contract.createToken(
+      uri,
+      ethers.utils.parseEther(price),
+      {
+        value: listPrice.toString(),
+      }
+    );
+
+    await transaction.wait();
+
+    setCurrentPage("mynfts");
   };
 
   const handleFileChange = (event) => {

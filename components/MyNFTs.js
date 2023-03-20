@@ -6,7 +6,7 @@ import { AppContext } from "./MarketPlace";
 
 import axios from "axios";
 
-function AllNFTs() {
+function MyNFTs() {
   const { contract } = useContext(AppContext);
 
   const [NFTs, setNFTs] = useState([]);
@@ -47,18 +47,10 @@ function AllNFTs() {
       return data;
     };
     if (contract)
-      contract.getAllNFTs().then((nfts) => {
-        debugger;
-        getNFTInfo(nfts).then((data) => setNFTs(data));
-      });
+      contract
+        .getMyNFTs()
+        .then((nfts) => getNFTInfo(nfts).then((data) => setNFTs(data)));
   }, [contract]);
-
-  const buyNFT = async (tokenId, price) => {
-    const transaction = await contract.executeSale(tokenId, {
-      value: ethers.utils.parseEther(price),
-    });
-    await transaction.wait();
-  };
 
   return (
     <div className="grid-container">
@@ -79,12 +71,7 @@ function AllNFTs() {
               Price: {nft.price} ETH
             </span>
             <span className="nft-details-item">
-              <button
-                className="btn-buy"
-                onClick={() => buyNFT(nft.tokenId, nft.price)}
-              >
-                Buy
-              </button>
+              <button className="btn-buy">Buy</button>
             </span>
           </div>
         </div>
@@ -93,4 +80,4 @@ function AllNFTs() {
   );
 }
 
-export default AllNFTs;
+export default MyNFTs;
